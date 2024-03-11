@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p>name:<span id="name"></span></p>
+    <p>location:<span id="location"></span></p>
+    <script>
+        const name=document.getElementById("name");
+        const locationele=document.getElementById("location");
+      const httpRequest=new XMLHttpRequest();
+      httpRequest.onreadystatechange=function(){
+        if(httpRequest.readyState===4){
+            console.log(httpRequest.responseText);
+            const userInfo=JSON.parse(httpRequest.responseText);
+            
+            name.innerHTML=userInfo.results[0].name.title + '. ' + userInfo.results[0].name.first + ' ' + userInfo.results[0].name.last;
+
+            locationele.innerHTML=userInfo.results[0].location.street.number+','+userInfo.results[0].location.street.name;
+        }
+      }
+      httpRequest.open('GET',"https://randomuser.me/api/?gender=MALE")
+      httpRequest.send();
+
+     
+
+    </script>
+</body>
+</html>
