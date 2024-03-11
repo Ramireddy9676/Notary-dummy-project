@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <p>Name: <span id="name"></span></p>
+
+    <p>Email: <span id="email"></span></p>
+
+    <p>Street: <span id="street"></span></p>
+
+    <p>City: <span id="city"></span></p>
+
+    <p>Date of Birth: <span id="dob"></span></p>
+
+
+
+
+
+
+
+    <script>
+
+        const name = document.getElementById('name');
+
+        const httpRequest = new XMLHttpRequest();
+
+        httpRequest.onreadystatechange = function() {
+            if (httpRequest.readyState === 4) {
+                console.log(httpRequest.responseText);
+                const userInfo = JSON.parse(httpRequest.responseText);
+
+                name.innerHTML = userInfo.results[0].name.title + '. ' + userInfo.results[0].name.first + ' ' + userInfo.results[0].name.last;
+
+                document.getElementById('email').innerHTML = userInfo.results[0].email;
+
+                document.getElementById('street').innerHTML = userInfo.results[0].location.street.number + ', ' + userInfo.results[0].location.street.name;
+
+                document.getElementById('city').innerHTML = userInfo.results[0].location.city;
+
+                const dateObj = new Date(userInfo.results[0].dob.date);
+
+                const month = (dateObj.getMonth() + 1).toString().length === 1 ? '0' + (dateObj.getMonth() + 1) : dateObj.getMonth() + 1;
+
+                document.getElementById('dob').innerHTML = dateObj.getDate() + '/' + month + '/' +dateObj.getFullYear();
+
+
+            }
+        }
+
+        httpRequest.open('GET', 'https://randomuser.me/api/?gender=MALE');
+
+        httpRequest.send();
+
+
+    </script>
+</body>
+</html>
